@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with AI</title>
+</head>
+<body>
+    <h1><div>Chat with AI</div></h1>
+    <p><i>Developed based on open resources of Open AI</i></p>
+    <div class="chatbox"><div class="messages"></div></div>
+    <form class="input" onsubmit="sendMessage(); return false;">
+        <input id="message-input" type="text" placeholder="Type your message here...">
+        <button type="submit">Send</button>
+    </form>
+    </div>
+    <script>
+        var messageInput = document.getElementById('message-input');
+        function sendMessage() {
+    var messageInput = document.getElementById('message-input');
+    var message = messageInput.value;
+    var messagesDiv = document.querySelector('.messages');
+    var messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    messageElement.innerHTML = '<div class="you"><b>You</b>:&nbsp;' + message + '</div><div class="ai"><b>AI</b>:&nbsp;Thinking...</div>';
+    messagesDiv.appendChild(messageElement);
+    messageInput.value = '';
+    fetch('/api/message?message=' + encodeURIComponent(message))
+        .then(response => response.json())
+        .then(data => {
+            messageElement.querySelector('.ai').innerHTML = 'AI:&nbsp;' + data.response;
+        });
+}
+
+    </script>
+    
+</body>
+</html>
